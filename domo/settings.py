@@ -29,9 +29,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '192.168.1.2',
-    '80.102.242.229',
-    'mumhouse.mooo.com',
-    'lorenzolerate.com'
 ]
 
 
