@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+{% if user.is_authenticated %}
+
+<head>
+	{% load static %}
+	{% csrf_token %}
+	<link rel="stylesheet" type="text/css" href="{% static 'controls/style.css' %}">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="{% static 'controls/main.js' %}"></script>
+	<title>Domo</title>
+</head>
+
+<body>
+	<div class=" h-100 d-flex justify-content-center align-items-center">
+		<div class="jumbotron text-center">
+			<p>Welcome, {{ user.username }}</p>
+			<h1>Domo</h1>
+			{% if control_list %}
+			{% for control in control_list %}
+			<h2>
+				{{ control.name }}
+				<label for="input_{{ control.name }}"></label>
+				<input id="input_{{ control.name }}" type="checkbox" style="width:1em;height: 1em;"
+					onclick="switchControl(this, '{{ control.name }}')" {% if control.state %} checked {% endif %}>
+			</h2>
+			{% endfor %}
+			{% else %}
+			<p>Error: No controls are available.</p>
+			{% endif %}
+			</br>
+			<h2>
+				Temperature: {{temperature}} °C
+			</h2>
+			<h2>
+				Humidity: {{humidity}} %
+			</h2>
+			<h2>
+				Pressure: {{pressure}} hPa
+			</h2>
+			</br>
+			<form action="/logout">
+				<input type="submit" value="Logout">
+			</form>
+		</div>
+	</div>
+</body>
+{% else %}
+<p>Unauthenticated user</p>
+<meta http-equiv="REFRESH" content="0;url=/controls/redirect-to-login">
+{% endif %}
+
+</html>
